@@ -1,0 +1,45 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<h2>Stream</h2>
+<div>
+    <script type="text/javascript">
+        $(function () {
+            // Proxy created on the fly
+            // var chat = $.connection.chat;
+            var connection = $.connection('echo');
+
+            connection.received(function (data) {
+                $('#messages').append('<li>' + data + '</li>');
+            });
+
+            connection.start();
+
+            $("#broadcast").click(function () {
+                connection.send($('#msg').val());
+            });
+
+            // Declare a function on the chat hub so the server can invoke it
+            //            chat.addMessage = function (message) {
+            //                $('#messages').append('<li>' + message + '</li>');
+            //            };
+
+            //            $("#start").click(function () {
+            //                chat.startstream();
+            //            });
+
+            //            $("#stop").click(function () {
+            //                $.connection.hub.stop();
+            //            });
+
+            // Open the connection, don't start streaming yet
+            // $.connection.hub.start();
+        });
+    </script>
+    <input type="text" id="msg"/>
+    <input type="button" id="broadcast"/>
+    <ul id="messages"></ul>
+    <a id="start">Start streaming!</a>
+    <a id="stop">Stop streaming!</a>
+</div>

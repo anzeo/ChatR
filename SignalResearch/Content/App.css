@@ -1,0 +1,52 @@
+﻿a{cursor:pointer
+  }
+  
+body
+{
+    font-family: Arial;
+    }
+/* Application specific styling starts here
+----------------------------------------------------------*/
+#app,#output{float:left}
+
+#app
+{
+	width:96%;
+	padding: 2%;
+    background-color: #F6F6F6;
+}
+
+/* OUTPUT */
+#output {width:100%;}
+#messages,#users
+{
+    float: left;
+	list-style-type: none;
+}
+#users
+{
+	margin:0 0 0 5%;
+	width:10%;
+	background-color: #E4E4E4;
+	position: fixed;
+	top:2%;
+	right:2%;
+}
+#users li.header
+{
+    font-weight:bold;
+    margin-bottom: 5px;
+}
+#messages
+{
+    width:65%;
+}
+#messages li.own
+{
+    font-weight: bold;
+}
+
+#output,#input
+{
+	clear: both;
+}

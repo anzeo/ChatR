@@ -1,0 +1,78 @@
+﻿@{
+    ViewBag.Title = "Chaet";
+}
+<div id="app">
+    <script type="text/javascript">
+        $(function () {
+            // HUB CONFIG //
+            var hub = $.connection.myHub;
+            var username;
+
+            // Declare a function on the chat hub so the server can invoke it
+            hub.addMessage = addMessage;
+
+            hub.updateUserList = function (users, message) {
+                $('#users').html("<li class='header'>Users</li>");
+                $.each(users, function (i, user) {
+                    $('#users').append('<li>' + user + '</li>');
+                });
+                addMessage(message);
+            };
+
+            $('#msg').keydown(function (event) {
+                if (event.keyCode == 13 && $('#msg').val() != '') {
+                    hub.send($('#msg').val());
+                    $('#msg').val('');
+                }
+            });
+
+            $("#stop").click(function () {
+                $.connection.hub.stop();
+                toggleLinks();
+            });
+
+            $("#start").click(logOn);
+
+            // shared functions
+            function logOn() {
+                $.connection.hub.start(function () {
+                    toggleLinks();
+                    username = prompt("What's your username?");
+                    hub.logOn(username);
+                });
+            }
+
+            function addMessage(message) {
+                $('#messages').append('<li>' + message + '</li>');
+            };
+
+            // frontend functions
+            function toggleLinks() {
+                if ($('#stop').is(':visible')) {
+                    $('#stop').hide();
+                    $('#start').show();
+                    $('#msg').attr('disabled', true);
+                } else {
+                    $('#stop').show();
+                    $('#start').hide();
+                    $('#msg').attr('disabled', false);
+                }
+            }
+
+            // init
+            toggleLinks();
+
+        });
+    </script>
+    <div id="output">
+        <ul id="messages"></ul>
+        <ul id="users"></ul>
+    </div>
+    <div id='input'>
+        <input type="text" id="msg"/>
+        <div id="options">
+            <a id="start">Log on</a>
+            <a id="stop">Log off</a>
+        </div>
+    </div>
+</div>
